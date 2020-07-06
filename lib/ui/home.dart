@@ -120,11 +120,7 @@ class _HomeState extends State<Home> {
                   autoPlayAnimationDuration: Duration(milliseconds: 800),
                   enlargeCenterPage: true,
                 ),
-                items: [
-                  'https://www.youtube.com/watch?v=hgUUZLKZA9w',
-                  'https://www.youtube.com/watch?v=E9osbVFFcVc',
-                  'https://www.youtube.com/watch?v=UO0r3cjAKcA'
-                ].map((i) {
+                items: vid.map((i) {
                   return Builder(
                     builder: (BuildContext context) {
                       var id = YoutubePlayer.convertUrlToId('$i');
@@ -151,9 +147,11 @@ class _HomeState extends State<Home> {
                           //     )
                           //   ),
                           // )
-                          child: Image.network(
-                            'http://img.youtube.com/vi/$id/0.jpg',
-                            fit: BoxFit.cover,
+                          child: Container(
+                            child: Image.network(
+                              'http://img.youtube.com/vi/$id/0.jpg',
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       );

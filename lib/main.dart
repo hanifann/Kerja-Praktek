@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khutbah_center/share/color.dart';
 import 'package:khutbah_center/ui/coba.dart';
 import 'package:khutbah_center/ui/home.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
           bodyText1: TextStyle(),
           bodyText2: TextStyle(),
         ).apply(
-          bodyColor: Colors.white, 
+          bodyColor: textColor, 
           displayColor: Colors.blue, 
         ),
       ),

@@ -10,11 +10,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<String> list = ['zakat', 'puasa', 'haji', 'aqiqah', 'pernikahan'];
+  List<String> list = ['zakat', 'puasa', 'haji', 'aqiqah', 'pernikahan',];
   List<String> ust = [
     'Ust. Adi hidayat',
     'Ust. Abdul Somad',
-    'Ust. Khalid Basalamah'
+    'Ust. Khalid Basalamah',
   ];
   List<String> vid = [
     'https://www.youtube.com/watch?v=hgUUZLKZA9w',
@@ -65,12 +65,12 @@ class _HomeState extends State<Home> {
                             textStyle: TextStyle(
                                 letterSpacing: 2.0,
                                 fontSize: 45.0,
-                                color: Colors.white))),
+                                color: textColor))),
                     Text(
                       'Pusat ceramah agama islam',
                       style: GoogleFonts.roboto(
                           textStyle:
-                              TextStyle(fontSize: 25.0, color: Colors.white)),
+                              TextStyle(fontSize: 25.0, color: textColor)),
                     ),
                     SizedBox(height: 50),
                     Text(
@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.roboto(
                           textStyle:
-                              TextStyle(fontSize: 16.0, color: Colors.white)),
+                              TextStyle(fontSize: 16.0, color: textColor)),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -89,18 +89,18 @@ class _HomeState extends State<Home> {
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.white, width: 2.0),
+                                    BorderSide(color: textColor, width: 2.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50.0))),
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.white, width: 2.0),
+                                    BorderSide(color: textColor, width: 2.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50.0))),
                             contentPadding: EdgeInsets.all(10),
                             prefixIcon: Icon(
                               Icons.search,
-                              color: Colors.white,
+                              color: textColor,
                             ),
                             hintText:
                                 'masukan nama ustadz yang ingin anda cari'),
@@ -132,21 +132,6 @@ class _HomeState extends State<Home> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          // decoration: BoxDecoration(
-                          //   color: Colors.amber,
-                          // ),
-                          // child: YoutubePlayer(
-                          //   controller: YoutubePlayerController(
-                          //     initialVideoId: YoutubePlayer.convertUrlToId('$i'),
-                          //     flags: YoutubePlayerFlags(
-                          //       isLive: false,
-                          //       loop: false,
-                          //       forceHD: false,
-                          //       mute: true,
-                          //       autoPlay: false
-                          //     )
-                          //   ),
-                          // )
                           child: Container(
                             child: Image.network(
                               'http://img.youtube.com/vi/$id/0.jpg',
@@ -160,6 +145,7 @@ class _HomeState extends State<Home> {
                 }).toList(),
               ),
               Container(
+                width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(top: 36.0),
                 padding: EdgeInsets.symmetric(vertical: 24.0),
                 decoration: BoxDecoration(
@@ -171,24 +157,28 @@ class _HomeState extends State<Home> {
                     Text(
                       'Ustadz yang ada Subsribe',
                       style: GoogleFonts.roboto(
-                          textStyle: TextStyle(fontSize: 18.0)),
+                          textStyle: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold
+                          )
+                        ),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(8.0),
-                      margin: EdgeInsets.only(top: 8.0),
-                      decoration: BoxDecoration(
-                        border: Border.symmetric(
-                          vertical: BorderSide(width: 2.0, color: Colors.white),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[for (var item in ust) Text(item)],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16.0,
+                      height: 50.0,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                          itemCount: ust.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Chip(
+                                backgroundColor: secColor,
+                                shadowColor: Colors.grey[200].withOpacity(.5),
+                                label: Text(ust[index], style: TextStyle(color: textColor),)
+                              ),
+                            );
+                          }),
                     ),
                     Container(
                       height: 100.0,
@@ -205,20 +195,28 @@ class _HomeState extends State<Home> {
                     Text(
                       'Topik yang ada Subsribe',
                       style: GoogleFonts.roboto(
-                          textStyle: TextStyle(fontSize: 18.0)),
+                          textStyle: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold
+                          )
+                        ),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(8.0),
-                      margin: EdgeInsets.only(top: 8.0),
-                      decoration: BoxDecoration(
-                          border: Border.symmetric(
-                              vertical:
-                                  BorderSide(width: 1.0, color: Colors.white))),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[for (var item in list) Text(item)],
-                      ),
+                      height: 50.0,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Chip(
+                                elevation: 0,
+                                backgroundColor: secColor,
+                                label: Text(list[index], style: TextStyle(color: textColor),)
+                              ),
+                            );
+                          }),
                     ),
                     SizedBox(
                       height: 16.0,

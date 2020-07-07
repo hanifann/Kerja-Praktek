@@ -8,7 +8,7 @@ class Coba extends StatefulWidget {
 }
 
 class _CobaState extends State<Coba> {
-  // PlayerState _playerState;
+  PlayerState _playerState;
   bool _isPlayerReady = false;
   // YoutubeMetaData _videoMetaData;
   // YoutubePlayerController _controller;
@@ -55,46 +55,51 @@ class _CobaState extends State<Coba> {
               player: YoutubePlayer(
                   onReady: () {
                     _isPlayerReady = true;
-                    _playerState = PlayerState.playing;
                     print(_isPlayerReady.toString());
                   },
                   showVideoProgressIndicator: true,
                   controller: YoutubePlayerController(
                       initialVideoId: data['id'],
                       flags: YoutubePlayerFlags(
-                          autoPlay: true,
-                          mute: false,
-                          isLive: false,
-                          forceHD: false,
-                          loop: false,))),
-                      builder: (context, player) {
-                      return player;
+                        autoPlay: true,
+                        mute: false,
+                        isLive: false,
+                        forceHD: false,
+                        loop: false,
+                      ))),
+              builder: (context, player) {
+                return player;
               },
             ),
             Expanded(
               child: ListView.builder(
                   itemCount: video.length,
                   itemBuilder: (context, index) {
-                  var buid = YoutubePlayer.convertUrlToId(video[index]);
+                    var buid = YoutubePlayer.convertUrlToId(video[index]);
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/coba', arguments: {'id': buid});
-                        },
-                        leading: Container(
-                            height: 150.0,
-                            width: 100.0,
-                            child: Image.network(
-                              'http://img.youtube.com/vi/$buid/0.jpg',
-                              fit: BoxFit.cover,
-                            )),
-                        title: Text(YoutubePlayer.convertUrlToId(buid),
-                      ),
-                    ));
-                  }),
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.popAndPushNamed(context, '/coba',
+                                arguments: {'id': buid});
+                          },
+                          leading: Container(
+                              height: 150.0,
+                              width: 100.0,
+                              child: Image.network(
+                                'http://img.youtube.com/vi/$buid/0.jpg',
+                                fit: BoxFit.cover,
+                              )),
+                          title: Text(
+                            YoutubePlayer.convertUrlToId(buid),
+                          ),
+                        )
+                      );
+                  }
+                ),
             )
           ],
-        ));
+        )
+      );
   }
 }

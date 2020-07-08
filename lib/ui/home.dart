@@ -1,8 +1,9 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:khutbah_center/share/carousel.dart';
+import 'package:khutbah_center/share/chip.dart';
 import 'package:khutbah_center/share/color.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:khutbah_center/share/subsribe.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,35 +11,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<String> list = ['zakat', 'puasa', 'haji', 'aqiqah', 'pernikahan',];
-  List<String> ust = [
-    'Ust. Adi hidayat',
-    'Ust. Abdul Somad',
-    'Ust. Khalid Basalamah',
-  ];
-  List<String> vid = [
-    'https://www.youtube.com/watch?v=hgUUZLKZA9w',
-    'https://www.youtube.com/watch?v=E9osbVFFcVc',
-    'https://www.youtube.com/watch?v=UO0r3cjAKcA',
-    'https://www.youtube.com/watch?v=UO0r3cjAKcA'
-  ];
-
-  Widget vidTemplate(e) {
-    var buid = YoutubePlayer.convertUrlToId(e);
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, '/coba', arguments: {'id': buid});
-      },
-      child: Container(
-          margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-          child: Image.network(
-            'http://img.youtube.com/vi/$buid/0.jpg',
-            fit: BoxFit.cover,
-            width: 150,
-          )),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,38 +84,7 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 20,
               ),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 200.0,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 5),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  enlargeCenterPage: true,
-                ),
-                items: vid.map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      var id = YoutubePlayer.convertUrlToId('$i');
-                      return InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/coba',
-                              arguments: {'id': id});
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Container(
-                            child: Image.network(
-                              'http://img.youtube.com/vi/$id/0.jpg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
-              ),
+              Carousel(),
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(top: 36.0),
@@ -158,79 +99,35 @@ class _HomeState extends State<Home> {
                       'Ustadz yang ada Subsribe',
                       style: GoogleFonts.roboto(
                           textStyle: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold
-                          )
-                        ),
+                              fontSize: 18.0, fontWeight: FontWeight.bold)),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 50.0,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                          itemCount: ust.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Chip(
-                                backgroundColor: secColor,
-                                shadowColor: Colors.grey[200].withOpacity(.5),
-                                label: Text(ust[index], style: TextStyle(color: textColor),)
-                              ),
-                            );
-                          }),
+                      child: ChipSubsribe(collectionName: 'ustadz',)
                     ),
                     Container(
                       height: 100.0,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: <Widget>[
-                          Row(
-                              children:
-                                  vid.map((e) => vidTemplate(e)).toList()),
-                        ],
-                      ),
+                      child: Subsribe(document: 'UAS',)
                     ),
                     SizedBox(height: 36.0),
                     Text(
                       'Topik yang ada Subsribe',
                       style: GoogleFonts.roboto(
                           textStyle: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold
-                          )
-                        ),
+                              fontSize: 18.0, fontWeight: FontWeight.bold)),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 50.0,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                          itemCount: list.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Chip(
-                                elevation: 0,
-                                backgroundColor: secColor,
-                                label: Text(list[index], style: TextStyle(color: textColor),)
-                              ),
-                            );
-                          }),
+                      child: ChipSubsribe(collectionName: 'topics')
                     ),
                     SizedBox(
                       height: 16.0,
                     ),
                     Container(
                       height: 100.0,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: <Widget>[
-                          Row(
-                              children:
-                                  vid.map((e) => vidTemplate(e)).toList()),
-                        ],
-                      ),
+                      child: Subsribe(document: 'UAH',)
                     ),
                   ],
                 ),

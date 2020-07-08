@@ -21,9 +21,6 @@ class MyApp extends StatelessWidget {
           displayColor: Colors.blue, 
         ),
       ),
-      routes: {
-        '/coba' : (context) => Coba()
-      },
     );
   }
 }

@@ -1,17 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:khutbah_center/share/color.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Video extends StatefulWidget {
-  final String vid;
-  Video({this.vid});
+  final String vid, docId, collectionId;
+  Video({this.vid, this.docId, this.collectionId});
   @override
   _VideoState createState() => _VideoState();
 }
 
 class _VideoState extends State<Video> {
+  // ignore: unused_field
   PlayerState _playerState;
   bool _isPlayerReady = false;
+  // ignore: unused_field
   YoutubeMetaData _videoMetaData;
   YoutubePlayerController _controller;
 
@@ -30,6 +33,7 @@ class _VideoState extends State<Video> {
       ..addListener(listener);
     _videoMetaData = const YoutubeMetaData();
     _playerState = PlayerState.unknown;
+    print(_videoMetaData);
   }
 
   @override
@@ -51,20 +55,6 @@ class _VideoState extends State<Video> {
     }
   }
 
-  List<String> video = [
-    'https://www.youtube.com/watch?v=rAdSmn-SOZU',
-    'https://www.youtube.com/watch?v=_5aWGOoGY7w',
-    'https://www.youtube.com/watch?v=XvvJkild0s4',
-    'https://www.youtube.com/watch?v=4TWMMZ81tuQ',
-    'https://www.youtube.com/watch?v=_SSV9CS9xWU',
-    'https://www.youtube.com/watch?v=hgUUZLKZA9w',
-    'https://www.youtube.com/watch?v=E9osbVFFcVc',
-    'https://www.youtube.com/watch?v=UO0r3cjAKcA',
-    'https://www.youtube.com/watch?v=hgUUZLKZA9w',
-    'https://www.youtube.com/watch?v=E9osbVFFcVc',
-    'https://www.youtube.com/watch?v=UO0r3cjAKcA'
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,42 +66,61 @@ class _VideoState extends State<Video> {
           children: <Widget>[
             YoutubePlayerBuilder(
               player: YoutubePlayer(
-                  onReady: () {
-                    _isPlayerReady = true;
-                    print(_isPlayerReady.toString());
-                  },
-                  showVideoProgressIndicator: true,
-                  controller: _controller),
+                  showVideoProgressIndicator: true, controller: _controller),
               builder: (context, player) {
                 return player;
               },
             ),
             Expanded(
-              child: ListView.builder(
-                  itemCount: video.length,
-                  itemBuilder: (context, index) {
-                    var buid = YoutubePlayer.convertUrlToId(video[index]);
-                    return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => Video(vid: buid)));
-                          },
-                          leading: Container(
-                              height: 150.0,
-                              width: 100.0,
-                              child: Image.network(
-                                'http://img.youtube.com/vi/$buid/0.jpg',
-                                fit: BoxFit.cover,
-                              )),
-                          title: Text('asdasdsa'),
-                        ));
-                  }),
+                child: StreamBuilder<DocumentSnapshot>(
+              stream: Firestore.instance
+                  .collection(widget.collectionId)
+                  .document(widget.docId)
+                  .snapshots(),
+              builder: (_, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(child: CircularProgressIndicator());
+                return ListView.builder(
+                    itemCount: snapshot.data.data['videoId'].length,
+                    itemBuilder: (_, index) {
+                      var videoId = YoutubePlayer.convertUrlToId(
+                          snapshot.data.data['videoId'][index]);
+                      return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => Video(
+                                            vid: videoId,
+                                            docId: widget.docId,
+                                            collectionId: widget.collectionId,
+                                          )
+                                        )
+                                      );
+                            },
+                            leading: Container(
+                                height: 200.0,
+                                width: 100.0,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child: Image.network(
+                                    'http://img.youtube.com/vi/$videoId/0.jpg',
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              ),
+                            title: Text(_controller.metadata.title),
+                          )
+                        );
+                    }
+                  );
+              },
             )
+          )
           ],
-        ));
+        )
+      );
   }
 }

@@ -108,7 +108,7 @@ class _HomeState extends State<Home> {
                     ),
                     Container(
                       height: 100.0,
-                      child: Subsribe(document: 'UAS',)
+                      child: Subsribe(document: 'UAS',collection: 'ustadz',)
                     ),
                     SizedBox(height: 36.0),
                     Text(
@@ -127,7 +127,7 @@ class _HomeState extends State<Home> {
                     ),
                     Container(
                       height: 100.0,
-                      child: Subsribe(document: 'UAH',)
+                      child: Subsribe(document: 'UAH',collection: 'ustadz'),
                     ),
                   ],
                 ),

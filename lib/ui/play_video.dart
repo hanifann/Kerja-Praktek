@@ -33,7 +33,6 @@ class _VideoState extends State<Video> {
       ..addListener(listener);
     _videoMetaData = const YoutubeMetaData();
     _playerState = PlayerState.unknown;
-    print(_videoMetaData);
   }
 
   @override
@@ -49,7 +48,7 @@ class _VideoState extends State<Video> {
   }
 
   void listener() {
-    if (_isPlayerReady && mounted && !_controller.value.isControlsVisible) {
+    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
       _playerState = _controller.value.playerState;
       _videoMetaData = _controller.metadata;
     }
@@ -60,12 +59,13 @@ class _VideoState extends State<Video> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: mainColor,
-          title: Center(child: Text('Video')),
+          title: Center(child: Text('play video')),
         ),
         body: Column(
           children: <Widget>[
             YoutubePlayerBuilder(
               player: YoutubePlayer(
+                onReady: () => _isPlayerReady = true,
                   showVideoProgressIndicator: true, controller: _controller),
               builder: (context, player) {
                 return player;
@@ -111,7 +111,7 @@ class _VideoState extends State<Video> {
                                   ),
                                 )
                               ),
-                            title: Text(_controller.metadata.title),
+                            title: Text(_videoMetaData.title),
                           )
                         );
                     }

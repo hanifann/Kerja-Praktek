@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:khutbah_center/share/carousel.dart';
 import 'package:khutbah_center/share/chip.dart';
 import 'package:khutbah_center/share/color.dart';
+import 'package:khutbah_center/share/drawer.dart';
 import 'package:khutbah_center/share/subsribe.dart';
 
 class Home extends StatefulWidget {
@@ -14,14 +15,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      drawer: SideMenu(),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: <Widget>[
               Container(
                 height: 350,
-                padding: EdgeInsets.only(top: 45.0),
+                padding: EdgeInsets.only(top: 24.0, left: 8.0, right: 8.0),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: mainColor,
@@ -53,8 +54,7 @@ class _HomeState extends State<Home> {
                               TextStyle(fontSize: 16.0, color: textColor)),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 30),
+                      padding: const EdgeInsets.symmetric(vertical: 30),
                       child: TextField(
                         decoration: InputDecoration(
                             fillColor: secColor,
@@ -90,7 +90,9 @@ class _HomeState extends State<Home> {
                 margin: EdgeInsets.only(top: 36.0),
                 padding: EdgeInsets.symmetric(vertical: 24.0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0)),
                   color: mainColor,
                 ),
                 child: Column(
@@ -102,14 +104,17 @@ class _HomeState extends State<Home> {
                               fontSize: 18.0, fontWeight: FontWeight.bold)),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50.0,
-                      child: ChipSubsribe(collectionName: 'ustadz',)
-                    ),
+                        width: MediaQuery.of(context).size.width,
+                        height: 50.0,
+                        child: ChipSubsribe(
+                          collectionName: 'ustadz',
+                        )),
                     Container(
-                      height: 100.0,
-                      child: Subsribe(document: 'UAS',collection: 'ustadz',)
-                    ),
+                        height: 100.0,
+                        child: Subsribe(
+                          document: 'UAS',
+                          collection: 'ustadz',
+                        )),
                     SizedBox(height: 36.0),
                     Text(
                       'Topik yang ada Subsribe',
@@ -118,16 +123,15 @@ class _HomeState extends State<Home> {
                               fontSize: 18.0, fontWeight: FontWeight.bold)),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50.0,
-                      child: ChipSubsribe(collectionName: 'topics')
-                    ),
+                        width: MediaQuery.of(context).size.width,
+                        height: 50.0,
+                        child: ChipSubsribe(collectionName: 'topics')),
                     SizedBox(
                       height: 16.0,
                     ),
                     Container(
                       height: 100.0,
-                      child: Subsribe(document: 'UAH',collection: 'ustadz'),
+                      child: Subsribe(document: 'UAH', collection: 'ustadz'),
                     ),
                   ],
                 ),

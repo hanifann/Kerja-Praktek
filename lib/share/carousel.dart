@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:khutbah_center/ui/video.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Carousel extends StatelessWidget {
@@ -32,7 +31,8 @@ class Carousel extends StatelessWidget {
                     fit: BoxFit.cover,
                     height: 200,),
                   );
-                })
+                }
+              )
           ],
         );
       },

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:khutbah_center/share/color.dart';
+import 'package:khutbah_center/share/constraint.dart';
 
 class ChipSubsribe extends StatelessWidget {
   final String collectionName;

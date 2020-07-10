@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:khutbah_center/share/carousel.dart';
 import 'package:khutbah_center/share/chip.dart';
-import 'package:khutbah_center/share/color.dart';
+import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/share/drawer.dart';
 import 'package:khutbah_center/share/subsribe.dart';
 
@@ -108,13 +108,15 @@ class _HomeState extends State<Home> {
                         height: 50.0,
                         child: ChipSubsribe(
                           collectionName: 'ustadz',
-                        )),
+                        )
+                      ),
                     Container(
                         height: 100.0,
                         child: Subsribe(
                           document: 'UAS',
                           collection: 'ustadz',
-                        )),
+                        )
+                      ),
                     SizedBox(height: 36.0),
                     Text(
                       'Topik yang ada Subsribe',

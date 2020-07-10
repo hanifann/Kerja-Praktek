@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/ui/list_video.dart';
 
 class SideMenu extends StatelessWidget {
@@ -8,6 +9,29 @@ class SideMenu extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
+          DrawerHeader(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  width: 64.0,
+                  height: 64.0,
+                  margin: EdgeInsets.only(bottom: 8.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    image: DecorationImage(image: AssetImage('assets/images/user.png'))
+                  ),
+                ),
+                Text('john Doe'),
+                SizedBox(height: 4.0,),
+                Text('johnDoe@email.com')
+              ],
+            ),
+            decoration: BoxDecoration(
+              color: mainColor
+            ),
+          ),
           ExpansionTile(
             title: Text("Ustadz"),
             children: <Widget>[

@@ -36,46 +36,80 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(242, 242, 242, 1),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Sign In',
-                style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'Gordita',
-                    fontWeight: FontWeight.w500)),
-            Form(
+      backgroundColor: Color.fromRGBO(241, 241, 241, 1),
+      body: Stack(
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 3,
+            decoration: BoxDecoration(
+              color: mainColor,
+            ),
+            child: Center(
+              child: Text('Sign In',
+              style: TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: 'Gordita',
+                  )),
+            ),
+          ),
+           Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 30,
+              decoration: BoxDecoration(
+               
+                color: secColor,
+              ),
+            ),
+          ),
+          Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 50,
+              decoration: BoxDecoration(
+               
+                color: mainColor,
+              ),
+            ),
+          ),
+          Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[ 
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0)
+                ),
+                child: Form(
                 key: _key,
                 child: Column(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(50.0, 50.0, 50.0, 24.0),
-                      child: TextFormField(
-                        maxLines: 1,
-                        autofocus: false,
-                        validator: (val) =>
-                            val.isEmpty ? 'Form ini tidak boleh kosong' : null,
-                        onChanged: (val) {
-                          setState(() => email = val);
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                          prefixIcon: Icon(Icons.email,
-                              color: Color.fromRGBO(89, 89, 90, 1)),
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1, color: Color.fromRGBO(89, 89, 90, 1))),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1, color: Color.fromRGBO(89, 89, 90, 1)))
-                        ),
+                    TextFormField(
+                      validator: (val) => val.isEmpty ? 'form ini tidak boleh kosong' : null,
+                      onChanged: (value) => email = value,
+                      maxLines: 1,
+                      keyboardType: TextInputType.emailAddress,
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        hintText: 'Email',
+                        filled: true,
+                        fillColor: secColor,
+                        prefixIcon: Icon(Icons.email,
+                            color: Color.fromRGBO(89, 89, 90, 1)),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 24.0),
+                      padding: const EdgeInsets.symmetric(vertical: 24.0,),
                       child: TextFormField(
                         validator: (val) => val.isEmpty ? 'form ini tidak boleh kosong' : null,
                         onChanged: (value) => password = value,
@@ -84,12 +118,14 @@ class _SignInState extends State<SignIn> {
                         autofocus: false,
                         decoration: InputDecoration(
                           hintText: 'Password',
+                          filled: true,
+                          fillColor: secColor,
                           prefixIcon: Icon(Icons.lock,
                               color: Color.fromRGBO(89, 89, 90, 1)),
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1, color: Color.fromRGBO(89, 89, 90, 1))),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1, color: Color.fromRGBO(89, 89, 90, 1))),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none),
                         ),
                       ),
                     ),
@@ -104,7 +140,7 @@ class _SignInState extends State<SignIn> {
                             TextSpan(
                               text: 'Daftar',
                               style: TextStyle(
-                                color: Color.fromRGBO(138, 117, 219, 1)
+                                color: mainColor
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = (){
@@ -117,10 +153,13 @@ class _SignInState extends State<SignIn> {
                     ),
                     ButtonTheme(
                       minWidth: 130.0,
-                      buttonColor: black,
+                      buttonColor: mainColor,
                       child: RaisedButton(
-                        textColor: Color.fromRGBO(237, 239, 244, 1),
-                        child: Text('Sign In'),
+                        textColor: Color.fromRGBO(88, 82, 78, 1),
+                        child: Text('Sign In',
+                        style: TextStyle(
+                          fontFamily: 'Gordita'
+                        ),),
                         onPressed: () {
                           if (_key.currentState.validate()) {
                             print('cek');
@@ -130,10 +169,13 @@ class _SignInState extends State<SignIn> {
                     )
                   ],
                 )
+                  ),
               )
-          ],
+            ],
+          ),
         ),
-      ),
+        ],
+      )
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:khutbah_center/services/auth_service.dart';
 import 'package:khutbah_center/share/carousel.dart';
 import 'package:khutbah_center/share/chip.dart';
 import 'package:khutbah_center/share/constraint.dart';
@@ -107,16 +108,14 @@ class _HomeState extends State<Home> {
                         width: MediaQuery.of(context).size.width,
                         height: 50.0,
                         child: ChipSubsribe(
-                          collectionName: 'ustadz',
-                        )
-                      ),
+                          collectionName: 'subscribe',fieldName: 'ustadz',
+                        )),
                     Container(
                         height: 100.0,
                         child: Subsribe(
                           document: 'UAS',
                           collection: 'ustadz',
-                        )
-                      ),
+                        )),
                     SizedBox(height: 36.0),
                     Text(
                       'Topik yang ada Subsribe',
@@ -127,7 +126,7 @@ class _HomeState extends State<Home> {
                     Container(
                         width: MediaQuery.of(context).size.width,
                         height: 50.0,
-                        child: ChipSubsribe(collectionName: 'topics')),
+                        child: ChipSubsribe(collectionName: 'subscribe', fieldName: 'topics',)),
                     SizedBox(
                       height: 16.0,
                     ),

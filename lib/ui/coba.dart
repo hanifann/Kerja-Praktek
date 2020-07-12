@@ -1,10 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:khutbah_center/model/user_model.dart';
 import 'package:khutbah_center/share/drawer.dart';
+import 'package:provider/provider.dart';
 
-class Coba extends StatelessWidget {
+class Coba extends StatefulWidget {
+  @override
+  _CobaState createState() => _CobaState();
+}
+
+class _CobaState extends State<Coba> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserModel>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text('coba'),
@@ -27,18 +35,23 @@ class Coba extends StatelessWidget {
         //   },
         // )
         drawer: SideMenu(),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection('ustadz').snapshots(),
+        body: StreamBuilder<DocumentSnapshot>(
+          stream: Firestore.instance
+              .collection('subscribe')
+              .document(user.uid)
+              .snapshots(),
           builder: (_, snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
             return ListView.builder(
-              itemCount: snapshot.data.documents.length,
+              itemCount: snapshot.data.data['topics'].length,
               itemBuilder: (_, index) {
-                print(snapshot.data.documents[index].documentID);
-                print(snapshot.data.documents.length);
-                return ListTile(
-                  leading: Text(snapshot.data.documents[index].documentID),
-                );
+                print(snapshot.data.data['topics'].length);
+                var kategori = snapshot.data.data['topics'][index];
+                snapshot.data.data['topics'].length == 0
+                    ? Text('data kosong')
+                    : ListTile(
+                      title: Text('kategori'),
+                    );
               },
             );
           },

@@ -41,7 +41,7 @@ class _ListVideoState extends State<ListVideo> {
                             MaterialPageRoute(
                                 builder: (_) => Video(
                                       vid: videoId,
-                                      docId: widget.documentId,
+                                      // docId: widget.documentId,
                                       collectionId: widget.collectionId,
                                     )));
                       },

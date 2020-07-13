@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:khutbah_center/services/auth_service.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/share/loading.dart';
-import 'package:khutbah_center/ui/login/sign_up.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;

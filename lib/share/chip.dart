@@ -6,8 +6,8 @@ import 'package:khutbah_center/share/constraint.dart';
 import 'package:provider/provider.dart';
 
 class ChipSubsribe extends StatefulWidget {
-  final String collectionName, fieldName;
-  ChipSubsribe({this.collectionName, this.fieldName});
+  final String collectionName;
+  ChipSubsribe({this.collectionName});
 
   @override
   _ChipSubsribeState createState() => _ChipSubsribeState();
@@ -19,6 +19,8 @@ class _ChipSubsribeState extends State<ChipSubsribe> {
     final user = Provider.of<UserModel>(context);
     return StreamBuilder<DocumentSnapshot>(
       stream: Firestore.instance
+          .collection('User')
+          .document(user.uid)
           .collection(widget.collectionName)
           .document(user.uid)
           .snapshots(),
@@ -29,10 +31,10 @@ class _ChipSubsribeState extends State<ChipSubsribe> {
           );
         return ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: snapshot.data.data[widget.fieldName].length,
+            itemCount: snapshot.data.data[widget.collectionName].length,
             itemBuilder: (_, index) {
-              var kategori = snapshot.data.data[widget.fieldName][index];
-              if (snapshot.data.data[widget.fieldName].length == 0) {
+              var kategori = snapshot.data.data[widget.collectionName][index];
+              if (snapshot.data.data[widget.collectionName].length == 0) {
                 return Text('Anda belum melakukan subscribe ');
               } else {
                 return Padding(

@@ -108,7 +108,7 @@ class _HomeState extends State<Home> {
                         width: MediaQuery.of(context).size.width,
                         height: 50.0,
                         child: ChipSubsribe(
-                          collectionName: 'subscribe',fieldName: 'ustadz',
+                          collectionName: 'ustadz',
                         )),
                     Container(
                         height: 100.0,
@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
                     Container(
                         width: MediaQuery.of(context).size.width,
                         height: 50.0,
-                        child: ChipSubsribe(collectionName: 'subscribe', fieldName: 'topics',)),
+                        child: ChipSubsribe(collectionName: 'topics',)),
                     SizedBox(
                       height: 16.0,
                     ),

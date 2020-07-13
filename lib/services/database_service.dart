@@ -3,30 +3,49 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class DatabaseService {
   final CollectionReference subsCollection =
-      Firestore.instance.collection('subscribe');
+      Firestore.instance.collection('User');
 
   Future initiateData(String uid) async {
-    return await subsCollection.document(uid).setData({
-      'ustadz': FieldValue.arrayUnion([]),
-      'topics': FieldValue.arrayUnion([])
+    return await subsCollection.document(uid).setData({}).then((value) {
+      Firestore.instance
+          .collection('User')
+          .document(uid)
+          .collection('ustadz')
+          .document(uid)
+          .setData({
+            'ustadz': FieldValue.arrayUnion([]),
+          });
+      Firestore.instance
+          .collection('User')
+          .document(uid)
+          .collection('topics')
+          .document(uid)
+          .setData({
+            'topics': FieldValue.arrayUnion([]),
+          });
     });
   }
 
   Future updateData(String data) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     return Firestore.instance
-        .collection('subscribe')
-        .document(firebaseUser.uid)
+        .collection('User')
+          .document(firebaseUser.uid)
+          .collection('ustadz')
+          .document(firebaseUser.uid)
         .updateData({
       'ustadz': FieldValue.arrayUnion([data])
     }).then((_) {
       print('success');
     });
   }
+
   Future updateTopik(String data) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     return Firestore.instance
-        .collection('subscribe')
+        .collection('User')
+        .document(firebaseUser.uid)
+        .collection('topics')
         .document(firebaseUser.uid)
         .updateData({
       'topics': FieldValue.arrayUnion([data])
@@ -35,5 +54,3 @@ class DatabaseService {
     });
   }
 }
-
-

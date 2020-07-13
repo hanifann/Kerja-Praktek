@@ -14,47 +14,46 @@ class _CobaState extends State<Coba> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel>(context);
     return Scaffold(
-        appBar: AppBar(
-          title: Text('coba'),
-        ),
-        // body: StreamBuilder<DocumentSnapshot>(
-        //   stream:
-        //       Firestore.instance.collection('ustadz').document('UAS').snapshots(),
-        //   builder: (_, snapshot) {
-        //     if (!snapshot.hasData) return CircularProgressIndicator();
-        //     return ListView.builder(
-        //       itemCount: snapshot.data.data['videoId'].length,
-        //       itemBuilder: (_, index) {
-        //         var videoId = YoutubePlayer.convertUrlToId(
-        //             snapshot.data.data['videoId'][index]);
-        //         return ListTile(
-        //           title: Image.network('http://img.youtube.com/vi/$videoId/0.jpg'),
-        //         );
-        //       },
-        //     );
-        //   },
-        // )
-        drawer: SideMenu(),
-        body: StreamBuilder<DocumentSnapshot>(
-          stream: Firestore.instance
-              .collection('subscribe')
-              .document(user.uid)
-              .snapshots(),
-          builder: (_, snapshot) {
-            if (!snapshot.hasData) return CircularProgressIndicator();
-            return ListView.builder(
-              itemCount: snapshot.data.data['topics'].length,
-              itemBuilder: (_, index) {
-                print(snapshot.data.data['topics'].length);
-                var kategori = snapshot.data.data['topics'][index];
-                snapshot.data.data['topics'].length == 0
-                    ? Text('data kosong')
-                    : ListTile(
-                      title: Text('kategori'),
-                    );
-              },
-            );
-          },
-        ));
+      appBar: AppBar(
+        title: Text('coba'),
+      ),
+      // body: StreamBuilder<DocumentSnapshot>(
+      //   stream:
+      //       Firestore.instance.collection('ustadz').document('UAS').snapshots(),
+      //   builder: (_, snapshot) {
+      //     if (!snapshot.hasData) return CircularProgressIndicator();
+      //     return ListView.builder(
+      //       itemCount: snapshot.data.data['videoId'].length,
+      //       itemBuilder: (_, index) {
+      //         var videoId = YoutubePlayer.convertUrlToId(
+      //             snapshot.data.data['videoId'][index]);
+      //         return ListTile(
+      //           title: Image.network('http://img.youtube.com/vi/$videoId/0.jpg'),
+      //         );
+      //       },
+      //     );
+      //   },
+      // )
+      drawer: SideMenu(),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance
+            .collection('ustadz')
+            .snapshots(),
+        builder: (_, snapshot) {
+          if (!snapshot.hasData) return CircularProgressIndicator();
+          return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (_, index) {
+              // print(snapshot.data.data['topics'].length);
+              var kategori = snapshot.data.documents[index].documentID;
+              return ListTile(
+                title: Text(kategori.toString()),
+              );
+            },
+          );
+        },
+      ));
+    //   body: Text('test'),
+    // );
   }
 }

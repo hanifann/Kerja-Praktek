@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:khutbah_center/model/user_model.dart';
 import 'package:khutbah_center/services/auth_service.dart';
 import 'package:khutbah_center/services/database_service.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/ui/list_video.dart';
+import 'package:provider/provider.dart';
 
 class SideMenu extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class _SideMenuState extends State<SideMenu> {
   bool _isSubsribe = false;
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserModel>(context);
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -56,10 +59,11 @@ class _SideMenuState extends State<SideMenu> {
                             color: _isSubsribe ? Colors.grey : mainColor,
                             child: Text('Subsribe'),
                             onPressed: () {
-                              var ustadzData =
+                              var ustadz =
                                   snapshot.data.documents[index].documentID;
                               setState(() {
-                                DatabaseService().updateData(ustadzData);
+                                DatabaseService()
+                                    .updateData(ustadz);
                               });
                             }),
                         title: Text(snapshot.data.documents[index].documentID,
@@ -102,7 +106,8 @@ class _SideMenuState extends State<SideMenu> {
                               var topikData =
                                   snapshot.data.documents[index].documentID;
                               setState(() {
-                                DatabaseService().updateTopik(topikData);
+                                DatabaseService()
+                                    .updateTopik(topikData);
                               });
                             }),
                         title: Text(snapshot.data.documents[index].documentID,

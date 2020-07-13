@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:khutbah_center/services/auth_service.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/share/loading.dart';
-import 'package:khutbah_center/ui/login/sign_in.dart';
 
 class SignUp extends StatefulWidget {
   final Function toggleView;
@@ -20,25 +19,6 @@ class _SignUpState extends State<SignUp> {
   String email = '';
   String password = '';
   bool loeading = false;
-
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => SignIn(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(1.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

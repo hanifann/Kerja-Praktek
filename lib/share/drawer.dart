@@ -4,7 +4,9 @@ import 'package:khutbah_center/model/user_model.dart';
 import 'package:khutbah_center/services/auth_service.dart';
 import 'package:khutbah_center/services/database_service.dart';
 import 'package:khutbah_center/share/constraint.dart';
+import 'package:khutbah_center/ui/subscribe/list_ustadz.dart';
 import 'package:khutbah_center/ui/list_video.dart';
+import 'package:khutbah_center/ui/subscribe/main_subscribe.dart';
 import 'package:provider/provider.dart';
 
 class SideMenu extends StatefulWidget {
@@ -62,8 +64,7 @@ class _SideMenuState extends State<SideMenu> {
                               var ustadz =
                                   snapshot.data.documents[index].documentID;
                               setState(() {
-                                DatabaseService()
-                                    .updateData(ustadz);
+                                DatabaseService().updateData(ustadz);
                               });
                             }),
                         title: Text(snapshot.data.documents[index].documentID,
@@ -106,8 +107,7 @@ class _SideMenuState extends State<SideMenu> {
                               var topikData =
                                   snapshot.data.documents[index].documentID;
                               setState(() {
-                                DatabaseService()
-                                    .updateTopik(topikData);
+                                DatabaseService().updateTopik(topikData);
                               });
                             }),
                         title: Text(snapshot.data.documents[index].documentID,
@@ -129,6 +129,14 @@ class _SideMenuState extends State<SideMenu> {
                 },
               ),
             ],
+          ),
+          Divider(),
+          ListTile(
+            title: Text('Subscribe'),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => MainSubscribe()));
+            },
           ),
           Divider(),
           ListTile(

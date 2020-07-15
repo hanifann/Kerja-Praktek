@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:khutbah_center/model/user_model.dart';
 import 'package:khutbah_center/services/auth_service.dart';
 import 'package:khutbah_center/share/carousel.dart';
 import 'package:khutbah_center/share/chip.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/share/drawer.dart';
 import 'package:khutbah_center/share/subsribe.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserModel>(context);
     return Scaffold(
       drawer: SideMenu(),
       body: SingleChildScrollView(
@@ -99,7 +102,7 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      'Ustadz yang ada Subsribe',
+                      'Ustadz yang anda Subsribe',
                       style: GoogleFonts.roboto(
                           textStyle: TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold)),
@@ -112,27 +115,25 @@ class _HomeState extends State<Home> {
                         )),
                     Container(
                         height: 100.0,
-                        child: Subsribe(
-                          document: 'UAS',
-                          collection: 'ustadz',
-                        )),
+                        child: Subsribe(collection: 'ustadz',document: user.uid,field: 'ustadz',)),
                     SizedBox(height: 36.0),
                     Text(
-                      'Topik yang ada Subsribe',
-                      style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.bold)),
+                      'Topik yang anda Subsribe',
+                      style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
                     Container(
                         width: MediaQuery.of(context).size.width,
                         height: 50.0,
-                        child: ChipSubsribe(collectionName: 'topics',)),
+                        child: ChipSubsribe(
+                          collectionName: 'topics',
+                        )),
                     SizedBox(
                       height: 16.0,
                     ),
                     Container(
                       height: 100.0,
-                      child: Subsribe(document: 'UAH', collection: 'ustadz'),
+                      child: Subsribe(collection: 'topics',document: user.uid,field: 'topics',),
                     ),
                   ],
                 ),

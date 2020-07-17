@@ -29,6 +29,10 @@ class _ChipSubsribeState extends State<ChipSubsribe> {
           return Center(
             child: CircularProgressIndicator(),
           );
+        if (snapshot.data.data.isEmpty)
+          return (Center(
+            child: Text('anda belum mensubscribe'),
+          ));
         return ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: snapshot.data.data[widget.collectionName].length,

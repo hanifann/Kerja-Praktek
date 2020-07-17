@@ -8,7 +8,7 @@ class Carousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
       stream:
-          Firestore.instance.collection('ustadz').document('UAH').snapshots(),
+          Firestore.instance.collection('ustadz').document('abdul somad').snapshots(),
       builder: (_, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
         return CarouselSlider(

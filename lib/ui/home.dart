@@ -19,7 +19,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel>(context);
     return Scaffold(
-      drawer: SideMenu(),
       body: SingleChildScrollView(
         child: Center(
           child: Column(

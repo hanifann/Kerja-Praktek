@@ -12,17 +12,13 @@ class DatabaseService {
           .document(uid)
           .collection('ustadz')
           .document(uid)
-          .setData({
-            'ustadz': FieldValue.arrayUnion([]),
-          });
+          .setData({});
       Firestore.instance
           .collection('User')
           .document(uid)
           .collection('topics')
           .document(uid)
-          .setData({
-            'topics': FieldValue.arrayUnion([]),
-          });
+          .setData({});
     });
   }
 
@@ -30,9 +26,9 @@ class DatabaseService {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     return Firestore.instance
         .collection('User')
-          .document(firebaseUser.uid)
-          .collection('ustadz')
-          .document(firebaseUser.uid)
+        .document(firebaseUser.uid)
+        .collection('ustadz')
+        .document(firebaseUser.uid)
         .updateData({
       'ustadz': FieldValue.arrayUnion([data])
     }).then((_) {
@@ -51,6 +47,18 @@ class DatabaseService {
       'topics': FieldValue.arrayUnion([data])
     }).then((_) {
       print('success');
+    });
+  }
+
+  Future deleteUstadz(String data) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    return Firestore.instance
+        .collection('User')
+        .document(firebaseUser.uid)
+        .collection('ustadz')
+        .document(firebaseUser.uid)
+        .setData({
+      'ustadz': FieldValue.arrayRemove([data])
     });
   }
 }

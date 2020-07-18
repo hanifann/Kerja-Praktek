@@ -48,7 +48,6 @@ class _ListUstadzState extends State<ListUstadz> {
                       String convert(String c) {
                         return YoutubePlayer.convertUrlToId(c);
                       }
-
                       return Column(
                         children: <Widget>[
                           for (var b in aaa)

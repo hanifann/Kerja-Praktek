@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:khutbah_center/ui/play_video.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Subsribe extends StatelessWidget {
@@ -20,7 +21,7 @@ class Subsribe extends StatelessWidget {
           return Center(
             child: CircularProgressIndicator(),
           );
-        if (snapshot == null) return Center(child: Text('data kosong'));
+        if (snapshot.data.data.isEmpty) return Center(child: Text('data kosong'));
         return ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: snapshot.data.data[field].length,
@@ -45,8 +46,8 @@ class Subsribe extends StatelessWidget {
                                 YoutubePlayer.convertUrlToId(list[index]);
                             return InkWell(
                               onTap: () {
-                                // Navigator.push(context,
-                                //   MaterialPageRoute(builder: (_) => Video(vid: videoId, docId: document, collectionId: collection,)));
+                                Navigator.push(context,
+                                  MaterialPageRoute(builder: (_) => Video(vid: videoId, docId: kategori, collectionId: collection,)));
                               },
                               child: Container(
                                   margin:
@@ -58,11 +59,14 @@ class Subsribe extends StatelessWidget {
                                       fit: BoxFit.cover,
                                       width: 150,
                                     ),
-                                  )),
+                                  )
+                                ),
                             );
-                          }),
+                          }
+                        ),
                     );
-                  });
+                  }
+                );
             });
       },
     );

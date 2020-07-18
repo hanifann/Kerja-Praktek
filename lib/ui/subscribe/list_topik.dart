@@ -25,6 +25,13 @@ class _ListTopikState extends State<ListTopik> {
             .snapshots(),
         builder: (_, snapshot) {
           if (!snapshot.hasData) return CircularProgressIndicator();
+          if (snapshot.data.data.isEmpty)
+            return Center(
+              child: Text(
+                'Anda belum melakukan subscribe ke \n topik manapun',
+                textAlign: TextAlign.center,
+              ),
+            );
           return ListView.builder(
               itemCount: snapshot.data.data['topics'].length,
               itemBuilder: (_, index) {
@@ -42,7 +49,6 @@ class _ListTopikState extends State<ListTopik> {
                       String convert(String c) {
                         return YoutubePlayer.convertUrlToId(c);
                       }
-
                       return Column(
                         children: <Widget>[
                           for (var b in aaa)
@@ -75,10 +81,8 @@ class _ListTopikState extends State<ListTopik> {
                             )
                         ],
                       );
-                    }
-                  );
-              }
-            );
+                    });
+              });
         },
       ),
     );

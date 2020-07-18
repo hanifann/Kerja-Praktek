@@ -31,28 +31,26 @@ class _ChipSubsribeState extends State<ChipSubsribe> {
           );
         if (snapshot.data.data.isEmpty)
           return (Center(
-            child: Text('anda belum mensubscribe'),
+            child: Text('anda belum melakukan subscribe'),
           ));
         return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: snapshot.data.data[widget.collectionName].length,
-            itemBuilder: (_, index) {
-              var kategori = snapshot.data.data[widget.collectionName][index];
-              if (snapshot.data.data[widget.collectionName].length == 0) {
-                return Text('Anda belum melakukan subscribe ');
-              } else {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Chip(
-                      backgroundColor: secColor,
-                      shadowColor: Colors.grey[200].withOpacity(.5),
-                      label: Text(
-                        kategori,
-                        style: TextStyle(color: textColor),
-                      )),
-                );
-              }
-            });
+          scrollDirection: Axis.horizontal,
+          itemCount: snapshot.data.data[widget.collectionName].length,
+          itemBuilder: (_, index) {
+            var kategori = snapshot.data.data[widget.collectionName][index];
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Chip(
+                  backgroundColor: secColor,
+                  shadowColor: Colors.grey[200].withOpacity(.5),
+                  label: Text(
+                    kategori,
+                    style: TextStyle(color: textColor),
+                  )
+                ),
+              );
+          }
+        );
       },
     );
   }

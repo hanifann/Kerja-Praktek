@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
           child: Column(
             children: <Widget>[
               Container(
-                height: 350,
+                height: 230,
                 padding: EdgeInsets.only(top: 24.0, left: 8.0, right: 8.0),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -47,14 +47,6 @@ class _HomeState extends State<Home> {
                       style: GoogleFonts.roboto(
                           textStyle:
                               TextStyle(fontSize: 25.0, color: textColor)),
-                    ),
-                    SizedBox(height: 50),
-                    Text(
-                      'Temukan dan dapatkan informasi ceramah terbaru \ndari ustadz favorit anda disini!',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.roboto(
-                          textStyle:
-                              TextStyle(fontSize: 16.0, color: textColor)),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 30),

@@ -24,6 +24,13 @@ class _ListUstadzState extends State<ListUstadz> {
             .snapshots(),
         builder: (_, snapshot) {
           if (!snapshot.hasData) return CircularProgressIndicator();
+          if (snapshot.data.data.isEmpty)
+            return Center(
+              child: Text(
+                'Anda belum melakukan subscribe ke \n topik manapun',
+                textAlign: TextAlign.center,
+              ),
+            );
           return ListView.builder(
               itemCount: snapshot.data.data['ustadz'].length,
               itemBuilder: (_, index) {

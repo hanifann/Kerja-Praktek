@@ -8,7 +8,7 @@ class AuthService {
 
   //membuat user object sesuai dengan firebaseUser
   UserModel _userFromFireBase(FirebaseUser user) {
-    return user != null ? UserModel(uid: user.uid) : null;
+    return user != null ? UserModel(uid: user.uid, email: user.email) : null;
   }
 
   //membuat stream dari userModel

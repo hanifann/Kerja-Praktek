@@ -10,7 +10,7 @@ class MainSubscribe extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: mainColor,
-          title: Text('subscriptions'),
+          title: Center(child: Text('Daftar Ustadz dan Topik Favorite')),
           bottom: TabBar(
             indicatorColor: secColor,
             tabs: [

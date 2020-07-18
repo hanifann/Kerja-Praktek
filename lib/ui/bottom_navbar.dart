@@ -1,6 +1,7 @@
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:khutbah_center/share/constraint.dart';
+import 'package:khutbah_center/ui/akun.dart';
 import 'package:khutbah_center/ui/home.dart';
 import 'package:khutbah_center/ui/list/main_list.dart';
 import 'package:khutbah_center/ui/subscribe/main_subscribe.dart';
@@ -15,7 +16,8 @@ class _BottomNavbarState extends State<BottomNavbar> {
   final List<Widget> _children = [
     Home(),
     MainList(),
-    MainSubscribe()
+    MainSubscribe(),
+    Akun()
   ];
 
   void onTabTapped(int index) {

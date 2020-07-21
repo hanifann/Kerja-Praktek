@@ -31,7 +31,7 @@ class _ListNamaTopikState extends State<ListNamaTopik> {
                           var ustadz =
                               snapshot.data.documents[index].documentID;
                           setState(() {
-                            DatabaseService().updateData(ustadz);
+                            DatabaseService().updateTopik(ustadz);
                           });
                         }),
                     onTap: () {

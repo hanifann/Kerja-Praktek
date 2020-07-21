@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:khutbah_center/share/constraint.dart';
+import 'package:khutbah_center/ui/play_video.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ListvideoUstadzTopik extends StatelessWidget {
@@ -30,16 +31,24 @@ class ListvideoUstadzTopik extends StatelessWidget {
                       snapshot.data.data[field][index]);
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      leading: Container(
-                        width: 100,
-                        height: 200,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                          child: Image.network(
-                            'http://img.youtube.com/vi/$videoId/0.jpg',
-                            fit: BoxFit.cover,
-                            width: 150.0,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => Video(collectionId: collection, docId: document, vid: videoId,))
+                        );
+                      },
+                      child: ListTile(
+                        leading: Container(
+                          width: 100,
+                          height: 200,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                            child: Image.network(
+                              'http://img.youtube.com/vi/$videoId/0.jpg',
+                              fit: BoxFit.cover,
+                              width: 150.0,
+                            ),
                           ),
                         ),
                       ),

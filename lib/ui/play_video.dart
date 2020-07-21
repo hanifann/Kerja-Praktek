@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:khutbah_center/services/database_service.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -27,7 +28,6 @@ class _VideoState extends State<Video> {
           autoPlay: true,
           mute: false,
           isLive: false,
-          forceHD: false,
           loop: false,
         ))
       ..addListener(listener);
@@ -65,8 +65,9 @@ class _VideoState extends State<Video> {
           children: <Widget>[
             YoutubePlayerBuilder(
               player: YoutubePlayer(
-                onReady: () => _isPlayerReady = true,
-                  showVideoProgressIndicator: true, controller: _controller),
+                  onReady: () => _isPlayerReady = true,
+                  showVideoProgressIndicator: true,
+                  controller: _controller),
               builder: (context, player) {
                 return player;
               },
@@ -96,9 +97,7 @@ class _VideoState extends State<Video> {
                                             vid: videoId,
                                             docId: widget.docId,
                                             collectionId: widget.collectionId,
-                                          )
-                                        )
-                                      );
+                                          )));
                             },
                             leading: Container(
                                 height: 200.0,
@@ -109,18 +108,12 @@ class _VideoState extends State<Video> {
                                     'http://img.youtube.com/vi/$videoId/0.jpg',
                                     fit: BoxFit.cover,
                                   ),
-                                )
-                              ),
-                            title: Text(_videoMetaData.title),
-                          )
-                        );
-                    }
-                  );
+                                )),
+                          ));
+                    });
               },
-            )
-          )
+            ))
           ],
-        )
-      );
+        ));
   }
 }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:khutbah_center/model/user_model.dart';
-import 'package:khutbah_center/services/auth_service.dart';
 import 'package:khutbah_center/share/carousel.dart';
 import 'package:khutbah_center/share/chip.dart';
 import 'package:khutbah_center/share/constraint.dart';
-import 'package:khutbah_center/share/drawer.dart';
 import 'package:khutbah_center/share/subsribe.dart';
 import 'package:provider/provider.dart';
 
@@ -24,16 +22,15 @@ class _HomeState extends State<Home> {
           child: Column(
             children: <Widget>[
               Container(
-                height: 230,
+                height: 150,
                 padding: EdgeInsets.only(top: 24.0, left: 8.0, right: 8.0),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    color: mainColor,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.elliptical(
-                            MediaQuery.of(context).size.width / 2, 50),
-                        bottomRight: Radius.elliptical(
-                            MediaQuery.of(context).size.width / 2, 50))),
+                  color: mainColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10.0),
+                    bottomRight: Radius.circular(10.0))
+                ),
                 child: Column(
                   children: <Widget>[
                     Text('Khutbah Center',
@@ -47,31 +44,6 @@ class _HomeState extends State<Home> {
                       style: GoogleFonts.roboto(
                           textStyle:
                               TextStyle(fontSize: 25.0, color: textColor)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 30),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            fillColor: secColor,
-                            filled: true,
-                            enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: textColor, width: 2.0),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0))),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: textColor, width: 2.0),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0))),
-                            contentPadding: EdgeInsets.all(10),
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: textColor,
-                            ),
-                            hintText:
-                                'masukan nama ustadz yang ingin anda cari'),
-                      ),
                     ),
                   ],
                 ),

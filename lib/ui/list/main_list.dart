@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/ui/list/list_nama_topik.dart';
 import 'package:khutbah_center/ui/list/list_nama_ustadz.dart';
-import 'package:khutbah_center/ui/list/list_video_ustadz_topik.dart';
 
 class MainList extends StatelessWidget {
   @override

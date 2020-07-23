@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:khutbah_center/model/user_model.dart';
-import 'package:khutbah_center/services/auth_service.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:provider/provider.dart';
 

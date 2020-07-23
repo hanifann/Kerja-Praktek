@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:khutbah_center/model/user_model.dart';
-import 'package:khutbah_center/share/drawer.dart';
-import 'package:khutbah_center/share/subsribe.dart';
-import 'package:khutbah_center/ui/play_video.dart';
+import 'package:khutbah_center/ui/list/list_video_ustadz_topik.dart';
 import 'package:provider/provider.dart';
+import 'package:textfield_search/textfield_search.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Coba extends StatefulWidget {
@@ -13,6 +12,31 @@ class Coba extends StatefulWidget {
 }
 
 class _CobaState extends State<Coba> {
+  TextEditingController controller = TextEditingController();
+  String label = "Some Label";
+  List<String> dummyList = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
+
+  String fetchData() {
+    Firestore.instance.collection('ustadz').document().documentID;
+    List _list = new List();
+    String _inputText = controller.text;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(_printValue());
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  _printValue() {
+    print(controller.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,63 +45,59 @@ class _CobaState extends State<Coba> {
         appBar: AppBar(
           title: Text('coba'),
         ),
+        body: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance.collection('nama').snapshots(),
+          builder: (_, snapshot) {
+            if (!snapshot.hasData) return CircularProgressIndicator();
+            return ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (_, index) {
+                  // print(snapshot.data.data['topics'].length;
+                  String convert(String c) {
+                    return YoutubePlayer.convertUrlToId(c);
+                  }
 
-body: StreamBuilder<DocumentSnapshot>(
-  stream: Firestore.instance
-      .collection('User')
-      .document(user.uid)
-      .collection('ustadz')
-      .document(user.uid)
-      .snapshots(),
-  builder: (_, snapshot) {
-    if (!snapshot.hasData) return CircularProgressIndicator();
-    return ListView.builder(
-        itemCount: snapshot.data.data['ustadz'].length,
-        itemBuilder: (_, index) {
-          // print(snapshot.data.data['topics'].length;
-          var kategori = snapshot.data.data['ustadz'][index];
-          return StreamBuilder<DocumentSnapshot>(
-              stream: Firestore.instance
-                  .collection("ustadz")
-                  .document(kategori)
-                  .snapshots(),
-              builder: (_, snapshot) {
-                if (!snapshot.hasData)
-                  return Center(child: CircularProgressIndicator());
-                List<dynamic> aaa = snapshot.data.data['videoId'];
-                String convert(String c) {
-                  return YoutubePlayer.convertUrlToId(c);
-                }
-                return Column(
-                  children: <Widget>[
-                    for (var b in aaa)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        onTap: (){
-                          Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => Video(vid: convert(b), docId: kategori, collectionId: 'ustadz',)));
-                        },
-                        leading: Container(
-                          height: 200.0,
-                          width: 100.0,
-                          child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5.0),
-                            child: Image.network(
-                              'http://img.youtube.com/vi/${convert(b)}/0.jpg',
-                                fit: BoxFit.cover,
-                                width: 150,
-                            ),
+                  List<dynamic> aaa = snapshot.data.documents[index]['nama'];
+                  return Form(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          child: TextFieldSearch(
+                            label: 'Cari nama ustadz',
+                            controller: controller,
+                            initialList: aaa,
                           ),
                         ),
-                      ),
-                    )
-                  ],
-                );
-              });
-        });
-  },
-));
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          color: Colors.red,
+                          child: IconButton(
+                              icon: Icon(Icons.search),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => ListvideoUstadzTopik(
+                                              collection: 'ustadz',
+                                              document: controller.text,
+                                              field: 'videoId',
+                                            )));
+                              }),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+          },
+        ));
+    // body: Column(
+    //   children: <Widget>[
+    //     TextFieldSearch(
+    //         initialList: dummyList, label: label, controller: controller),
+    //   ],
+    // ));
   }
 }
 

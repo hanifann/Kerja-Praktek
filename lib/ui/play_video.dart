@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:khutbah_center/services/database_service.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -73,7 +72,7 @@ class _VideoState extends State<Video> {
               },
             ),
             Expanded(
-                child: StreamBuilder<DocumentSnapshot>(
+              child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance
                   .collection(widget.collectionId)
                   .document(widget.docId)

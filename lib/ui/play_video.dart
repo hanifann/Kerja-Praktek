@@ -64,10 +64,10 @@ class _VideoState extends State<Video> {
           children: <Widget>[
             YoutubePlayerBuilder(
               player: YoutubePlayer(
-                  onReady: () => _isPlayerReady = true,
-                  showVideoProgressIndicator: true,
-                  controller: _controller),
-              builder: (context, player) {
+                onReady: () => _isPlayerReady = true,
+                showVideoProgressIndicator: true,
+                controller: _controller),
+                builder: (context, player) {
                 return player;
               },
             ),

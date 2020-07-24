@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:khutbah_center/model/user_model.dart';
+import 'package:khutbah_center/services/database_service.dart';
+import 'package:khutbah_center/share/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -49,35 +51,50 @@ class _ListTopikState extends State<ListTopik> {
                       String convert(String c) {
                         return YoutubePlayer.convertUrlToId(c);
                       }
+
                       return Column(
                         children: <Widget>[
                           for (var b in aaa)
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => Video(
-                                                vid: convert(b),
-                                                docId: kategori,
-                                                collectionId: 'topics',
-                                              )));
-                                },
-                                leading: Container(
-                                  height: 200.0,
-                                  width: 100.0,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    child: Image.network(
-                                      'http://img.youtube.com/vi/${convert(b)}/0.jpg',
-                                      fit: BoxFit.cover,
-                                      width: 150,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              child: FutureBuilder(
+                                  future: Future.wait([DatabaseService().getYoutubeMetadata(b, 'title'), DatabaseService().getYoutubeMetadata(b, 'durasi')]),
+                                  builder: (context, text) {
+                                    if (!text.hasData) return Loading();
+                                    return Card(
+                                      child: ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => Video(
+                                                        vid: convert(b),
+                                                        docId: kategori,
+                                                        collectionId: 'topics',
+                                                      )));
+                                        },
+                                        leading: Container(
+                                          height: 200.0,
+                                          width: 100.0,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                            child: Image.network(
+                                              'http://img.youtube.com/vi/${convert(b)}/0.jpg',
+                                              fit: BoxFit.cover,
+                                              width: 150,
+                                            ),
+                                          ),
+                                        ),
+                                        title: Text(text.data[0],
+                                          style: TextStyle(
+                                            fontSize: 12.0
+                                          ),
+                                        ),
+                                        subtitle: Text(text.data[1]),
+                                      ),
+                                    );
+                                  }),
                             )
                         ],
                       );

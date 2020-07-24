@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class DatabaseService {
   final CollectionReference subsCollection =
@@ -60,5 +61,22 @@ class DatabaseService {
         .setData({
       'ustadz': FieldValue.arrayRemove([data])
     });
+  }
+
+  Future getYoutubeMetadata(String link, String jenisData) async {
+    var yt = YoutubeExplode();
+    var videos = await yt.videos.get(link);
+
+    switch (jenisData) {
+      case 'title':
+        return videos.title;
+        break;
+      case 'durasi':
+        return videos.duration.toString().substring(0, 7);
+      case 'deskripsi':
+        return videos.description;
+      default:
+    }
+    yt.close();
   }
 }

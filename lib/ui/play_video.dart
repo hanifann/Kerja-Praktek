@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:khutbah_center/services/database_service.dart';
 import 'package:khutbah_center/share/constraint.dart';
+import 'package:khutbah_center/share/loading.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Video extends StatefulWidget {
@@ -64,15 +66,15 @@ class _VideoState extends State<Video> {
           children: <Widget>[
             YoutubePlayerBuilder(
               player: YoutubePlayer(
-                onReady: () => _isPlayerReady = true,
-                showVideoProgressIndicator: true,
-                controller: _controller),
-                builder: (context, player) {
+                  onReady: () => _isPlayerReady = true,
+                  showVideoProgressIndicator: true,
+                  controller: _controller),
+              builder: (context, player) {
                 return player;
               },
             ),
             Expanded(
-              child: StreamBuilder<DocumentSnapshot>(
+                child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance
                   .collection(widget.collectionId)
                   .document(widget.docId)
@@ -85,30 +87,48 @@ class _VideoState extends State<Video> {
                     itemBuilder: (_, index) {
                       var videoId = YoutubePlayer.convertUrlToId(
                           snapshot.data.data['videoId'][index]);
+                      var link = snapshot.data.data['videoId'][index];
                       return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => Video(
-                                            vid: videoId,
-                                            docId: widget.docId,
-                                            collectionId: widget.collectionId,
-                                          )));
-                            },
-                            leading: Container(
-                                height: 200.0,
-                                width: 100.0,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  child: Image.network(
-                                    'http://img.youtube.com/vi/$videoId/0.jpg',
-                                    fit: BoxFit.cover,
+                          child: FutureBuilder(
+                              future: Future.wait([
+                                DatabaseService()
+                                    .getYoutubeMetadata(link, 'title'),
+                                DatabaseService()
+                                    .getYoutubeMetadata(link, 'durasi')
+                              ]),
+                              builder: (context, text) {
+                                if (!text.hasData) return Loading();
+                                return ListTile(
+                                  onTap: () {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => Video(
+                                                  vid: videoId,
+                                                  docId: widget.docId,
+                                                  collectionId:
+                                                      widget.collectionId,
+                                                )));
+                                  },
+                                  leading: Container(
+                                      height: 200.0,
+                                      width: 100.0,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        child: Image.network(
+                                          'http://img.youtube.com/vi/$videoId/0.jpg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )),
+                                  title: Text(
+                                    text.data[0],
+                                    style: TextStyle(fontSize: 12.0),
                                   ),
-                                )),
-                          ));
+                                  subtitle: Text(text.data[1]),
+                                );
+                              }));
                     });
               },
             ))

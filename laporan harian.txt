@@ -22,3 +22,4 @@
 18. implementasi fungsi serarch (belum berhasil)
 19. implementasi fungsi serarch, menambah sebuah collection untuk search, menghapus file yang tidak digunakan
 20. menambahkan title dan durasi dengan menggunakan library youtube explode
+21. membuat laporan kerja praktek

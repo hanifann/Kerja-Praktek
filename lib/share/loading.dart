@@ -13,3 +13,15 @@ class Loading extends StatelessWidget {
     );
   }
 }
+
+class LoadingMain extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: SpinKitFadingCircle(
+        color: mainColor,
+      ),
+    );
+  }
+}

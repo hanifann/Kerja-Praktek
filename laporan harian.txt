@@ -23,3 +23,7 @@
 19. implementasi fungsi serarch, menambah sebuah collection untuk search, menghapus file yang tidak digunakan
 20. menambahkan title dan durasi dengan menggunakan library youtube explode
 21. membuat laporan kerja praktek
+22. membuat laporan kerja praktek
+23. membuat laporan kerja praktek
+24. membuat laporan kerja praktek
+25. membuat laporan kerja praktek, edit loading pada saat pertama kali masuk

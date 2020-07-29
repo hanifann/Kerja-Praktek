@@ -26,3 +26,4 @@
 22. membuat laporan kerja praktek
 23. membuat laporan kerja praktek
 24. membuat laporan kerja praktek
+25. membuat laporan kerja praktek, edit loading pada saat pertama kali masuk

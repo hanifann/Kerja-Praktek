@@ -27,3 +27,4 @@
 23. membuat laporan kerja praktek
 24. membuat laporan kerja praktek
 25. membuat laporan kerja praktek, edit loading pada saat pertama kali masuk
+26. fix fullscreen saat play video (belum berhasil)

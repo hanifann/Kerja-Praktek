@@ -5,10 +5,18 @@ import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/share/loading.dart';
 import 'package:khutbah_center/ui/play_video.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:async/async.dart';
 
-class ListvideoUstadzTopik extends StatelessWidget {
+class ListvideoUstadzTopik extends StatefulWidget {
   final String collection, document, field;
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
   ListvideoUstadzTopik({this.document, this.collection, this.field});
+
+  @override
+  _ListvideoUstadzTopikState createState() => _ListvideoUstadzTopikState();
+}
+
+class _ListvideoUstadzTopikState extends State<ListvideoUstadzTopik> {  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,8 +26,8 @@ class ListvideoUstadzTopik extends StatelessWidget {
       ),
       body: StreamBuilder<DocumentSnapshot>(
           stream: Firestore.instance
-              .collection(collection)
-              .document(document)
+              .collection(widget.collection)
+              .document(widget.document)
               .snapshots(),
           builder: (_, snapshot) {
             if (!snapshot.hasData)
@@ -27,11 +35,11 @@ class ListvideoUstadzTopik extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             return ListView.builder(
-                itemCount: snapshot.data.data[field].length,
+                itemCount: snapshot.data.data[widget.field].length,
                 itemBuilder: (_, index) {
                   var videoId = YoutubePlayer.convertUrlToId(
-                      snapshot.data.data[field][index]);
-                  var link = snapshot.data.data[field][index];
+                      snapshot.data.data[widget.field][index]);
+                  var link = snapshot.data.data[widget.field][index];
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
@@ -40,13 +48,13 @@ class ListvideoUstadzTopik extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (_) => Video(
-                                      collectionId: collection,
-                                      docId: document,
+                                      collectionId: widget.collection,
+                                      docId: widget.document,
                                       vid: videoId,
                                     )));
                       },
                       child: FutureBuilder(
-                          future: Future.wait([DatabaseService().getYoutubeMetadata(link, 'durasi'), DatabaseService().getYoutubeMetadata(link, 'title')]),
+                          future: widget._memoizer.runOnce(() => Future.wait([DatabaseService().getYoutubeMetadata(link, 'durasi'), DatabaseService().getYoutubeMetadata(link, 'title')])),
                           builder: (context, text) {
                             if (!text.hasData) return Loading();
                             return Card(

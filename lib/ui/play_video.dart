@@ -4,9 +4,11 @@ import 'package:khutbah_center/services/database_service.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/share/loading.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:async/async.dart';
 
 class Video extends StatefulWidget {
   final String vid, docId, collectionId;
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
   Video({this.vid, this.docId, this.collectionId});
   @override
   _VideoState createState() => _VideoState();
@@ -16,10 +18,11 @@ class _VideoState extends State<Video> {
   // ignore: unused_field
   PlayerState _playerState;
   bool _isPlayerReady = false;
+  bool appbarBool = true;
   // ignore: unused_field
   YoutubeMetaData _videoMetaData;
   YoutubePlayerController _controller;
-
+  
   @override
   void initState() {
     super.initState();
@@ -58,21 +61,29 @@ class _VideoState extends State<Video> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: appbarBool ? AppBar(
           backgroundColor: mainColor,
           title: Center(child: Text('play video')),
-        ),
-        body: Column(
-          children: <Widget>[
-            YoutubePlayerBuilder(
+        ) : null,
+        body:  YoutubePlayerBuilder(
+            onEnterFullScreen: (){
+              setState(() {
+                appbarBool = !appbarBool;
+              });
+            },
+            onExitFullScreen: (){
+              setState(() {
+                appbarBool = !appbarBool;
+              });
+            },
               player: YoutubePlayer(
                   onReady: () => _isPlayerReady = true,
                   showVideoProgressIndicator: true,
                   controller: _controller),
               builder: (context, player) {
-                return player;
-              },
-            ),
+                return Column(
+          children: <Widget>[
+           player,
             Expanded(
                 child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance
@@ -90,13 +101,13 @@ class _VideoState extends State<Video> {
                       var link = snapshot.data.data['videoId'][index];
                       return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: FutureBuilder(
-                              future: Future.wait([
+                          child:  FutureBuilder(
+                              future: widget._memoizer.runOnce(() => Future.wait([
                                 DatabaseService()
                                     .getYoutubeMetadata(link, 'title'),
                                 DatabaseService()
                                     .getYoutubeMetadata(link, 'durasi')
-                              ]),
+                              ])),
                               builder: (context, text) {
                                 if (!text.hasData) return Loading();
                                 return ListTile(
@@ -133,6 +144,9 @@ class _VideoState extends State<Video> {
               },
             ))
           ],
-        ));
+        );
+              },
+            ),
+        );
   }
 }

@@ -6,8 +6,10 @@ import 'package:khutbah_center/share/loading.dart';
 import 'package:khutbah_center/ui/play_video.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:async/async.dart';
 
 class ListUstadz extends StatefulWidget {
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
   @override
   _ListUstadzState createState() => _ListUstadzState();
 }
@@ -56,7 +58,7 @@ class _ListUstadzState extends State<ListUstadz> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: FutureBuilder(
-                                  future: Future.wait([DatabaseService().getYoutubeMetadata(b, 'title'), DatabaseService().getYoutubeMetadata(b, 'durasi')]),
+                                  future: widget._memoizer.runOnce(() => Future.wait([DatabaseService().getYoutubeMetadata(b, 'title'), DatabaseService().getYoutubeMetadata(b, 'durasi')])),
                                   builder: (context, text) {
                                     if (!text.hasData) return Loading();
                                     return Card(

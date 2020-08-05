@@ -7,13 +7,16 @@ import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../play_video.dart';
+import 'package:async/async.dart';
 
 class ListTopik extends StatefulWidget {
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
   @override
   _ListTopikState createState() => _ListTopikState();
 }
 
 class _ListTopikState extends State<ListTopik> {
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel>(context);
@@ -58,7 +61,7 @@ class _ListTopikState extends State<ListTopik> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: FutureBuilder(
-                                  future: Future.wait([DatabaseService().getYoutubeMetadata(b, 'title'), DatabaseService().getYoutubeMetadata(b, 'durasi')]),
+                                  future: widget._memoizer.runOnce(() => Future.wait([DatabaseService().getYoutubeMetadata(b, 'title'), DatabaseService().getYoutubeMetadata(b, 'durasi')])),
                                   builder: (context, text) {
                                     if (!text.hasData) return Loading();
                                     return Card(

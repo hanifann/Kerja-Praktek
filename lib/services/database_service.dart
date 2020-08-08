@@ -1,5 +1,8 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:retry/retry.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class DatabaseService {
@@ -62,10 +65,15 @@ class DatabaseService {
       'ustadz': FieldValue.arrayRemove([data])
     });
   }
+  final r = RetryOptions(maxAttempts: 3);
 
   Future getYoutubeMetadata(String link, String jenisData) async {
-    var yt = YoutubeExplode();
-    var videos = await yt.videos.get(link);
+    try {
+      var yt = YoutubeExplode();
+      var videos = await r.retry(() =>
+        yt.videos.get(link).timeout(Duration(seconds: 30)),
+        retryIf: (e) => e is SocketException || e is TimeoutException
+      );
 
     switch (jenisData) {
       case 'title':
@@ -78,5 +86,11 @@ class DatabaseService {
       default:
     }
     yt.close();
+    }
+    catch (e) {
+      print(e.toString());
+      return null;
+    }    
   }
 }
+

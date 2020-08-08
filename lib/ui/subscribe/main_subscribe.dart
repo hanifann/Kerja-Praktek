@@ -1,3 +1,4 @@
+import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/ui/subscribe/list_topik.dart';
@@ -23,11 +24,14 @@ class MainSubscribe extends StatelessWidget {
             ]
           ),
         ),
-        body: TabBarView(
-          children: [
-            ListUstadz(),
-            ListTopik()
-          ]
+        body: ConnectivityWidgetWrapper(
+          disableInteraction: true,
+          child: TabBarView(
+            children: [
+              ListUstadz(),
+              ListTopik()
+            ]
+          ),
         )
       )
     );

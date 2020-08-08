@@ -1,3 +1,4 @@
+import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:khutbah_center/share/constraint.dart';
 import 'package:khutbah_center/ui/list/list_nama_topik.dart';
@@ -24,11 +25,14 @@ class MainList extends StatelessWidget {
             ]
           ),
         ),
-        body: TabBarView(
-          children: [
-            ListNamaUstadz(),
-            ListNamaTopik(),
-          ]
+        body: ConnectivityWidgetWrapper(
+          disableInteraction: true,
+          child: TabBarView(
+            children: [
+              ListNamaUstadz(),
+              ListNamaTopik(),
+            ]
+          ),
         )
       )
     );

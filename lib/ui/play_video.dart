@@ -134,10 +134,10 @@ class _VideoState extends State<Video> {
                                         ),
                                       )),
                                   title: Text(
-                                    text.data[0],
+                                    text.data[0] ?? "",
                                     style: TextStyle(fontSize: 12.0),
                                   ),
-                                  subtitle: Text(text.data[1]),
+                                  subtitle: Text(text.data[1] ?? ""),
                                 );
                               }));
                     });

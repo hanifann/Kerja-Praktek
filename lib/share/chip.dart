@@ -51,6 +51,6 @@ class _ChipSubsribeState extends State<ChipSubsribe> {
           }
         );
       },
-    );
+    ) ?? null;
   }
 }

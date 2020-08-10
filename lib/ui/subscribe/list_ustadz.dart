@@ -86,12 +86,12 @@ class _ListUstadzState extends State<ListUstadz> {
                                             ),
                                           ),
                                         ),
-                                        title: Text(text.data[0],
+                                        title: Text(text.data[0] ?? "",
                                           style: TextStyle(
                                             fontSize: 12.0
                                           ),
                                         ),
-                                        subtitle: Text(text.data[1]),
+                                        subtitle: Text(text.data[1] ?? ""),
                                       ),
                                     );
                                   }),
